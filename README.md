@@ -15,7 +15,7 @@ pip install aio-throttle-to-next-second
 Create a shared `Throttler`, with no arguments
 
 ```python
-from aiothrottler import Throttler
+from aio_throttle_to_next_second import Throttler
 
 throttler = Throttler()
 ```
@@ -34,7 +34,7 @@ await throttler()
 import asyncio
 import time
 
-from aiothrottler import Throttler
+from aio_throttle_to_next_second import Throttler
 
 async def main():
     throttler = Throttler()
@@ -60,7 +60,7 @@ import asyncio
 import random
 import time
 
-from aiothrottler import Throttler
+from aio_throttle_to_next_second import Throttler
 
 async def main():
     throttler = Throttler()
