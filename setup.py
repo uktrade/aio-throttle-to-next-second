@@ -8,7 +8,7 @@ def long_description():
 
 setuptools.setup(
     name='aio-throttle-to-next-second',
-    version='0.0.0',
+    version='0.0.1',
     author='Michal Charemza',
     author_email='michal@charemza.name',
     maintainer='Department for International Trade',
