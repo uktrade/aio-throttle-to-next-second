@@ -53,7 +53,7 @@ loop.close()
 ```
 
 
-## Example: single task throttled/smoothed
+## Example: single task throttled
 
 ```python
 import asyncio
