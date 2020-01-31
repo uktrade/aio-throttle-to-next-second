@@ -1,4 +1,4 @@
-# aio-throttle-to-next-second [![CircleCI](https://circleci.com/gh/michalc/aiothrottler.svg?style=svg)](https://circleci.com/gh/michalc/aiothrottler) [![Test Coverage](https://api.codeclimate.com/v1/badges/e52e294a919c8974c133/test_coverage)](https://codeclimate.com/github/michalc/aiothrottler/test_coverage)
+# aio-throttle-to-next-second [![CircleCI](https://circleci.com/gh/uktrade/aio-throttle-to-next-second.svg?style=svg)](https://circleci.com/gh/uktrade/aio-throttle-to-next-second) [![Test Coverage](https://api.codeclimate.com/v1/badges/e791b8d7273920821a9a/test_coverage)](https://codeclimate.com/github/uktrade/aio-throttle-to-next-second/test_coverage)
 
 Throttler for asyncio Python that throttles to the next whole second, as reported by `time.time()`. This is useful to force an order on requests to a service that uses a "latest timestamp wins" strategy, such as S3.
 
