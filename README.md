@@ -1,31 +1,30 @@
 # aiothrottler [![CircleCI](https://circleci.com/gh/michalc/aiothrottler.svg?style=svg)](https://circleci.com/gh/michalc/aiothrottler) [![Test Coverage](https://api.codeclimate.com/v1/badges/e52e294a919c8974c133/test_coverage)](https://codeclimate.com/github/michalc/aiothrottler/test_coverage)
 
-Throttler for asyncio Python
+Throttler for asyncio Python that throttles to the next whole second, as reported by `time.time()`. This is useful to force an order on requests to a service that uses a "latest timestamp wins" strategy, such as S3.
 
 
 ## Installation
 
 ```bash
-pip install aiothrottler
+pip install aio-throttle-to-next-second
 ```
 
 
 ## Usage
 
-Create a shared `Throttler`, passing a minimum interval, e.g. `0.5` seconds
+Create a shared `Throttler`, with no arguments
 
 ```python
 from aiothrottler import Throttler
 
-throttler = Throttler(min_interval=0.5)
+throttler = Throttler()
 ```
 
 and then just before the piece(s) of code to be throttled, _call_ this and `await` its result.
 
 ```python
 await throttler()
-# There will be a gap of at least 0.5 seconds
-# between executions reaching this line
+# Each execution reaching this line will reach this line at a different second
 ```
 
 
@@ -38,16 +37,15 @@ import time
 from aiothrottler import Throttler
 
 async def main():
-    throttler = Throttler(min_interval=0.5)
+    throttler = Throttler()
     await asyncio.gather(*[
         worker(throttler) for _ in range(10)
     ])
 
 async def worker(throttler):
     await throttler()
-    # Interval of at least 0.5 seconds between prints
-    # even though all workers started together
-    print(time.time())
+    # Each print will show a distinct second, though all workers started together
+    print(int(time.time()))
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
@@ -65,28 +63,14 @@ import time
 from aiothrottler import Throttler
 
 async def main():
-    throttler = Throttler(min_interval=0.5)
+    throttler = Throttler()
     for _ in range(10):
         await throttler()
-        # Interval of at least 0.5 seconds between prints
-        # even though each sleep is random
-        print(time.time())
+        # Each print will show a distinct second, though there is a random sleep
+        print(int(time.time()))
         await asyncio.sleep(random.random())
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
 loop.close()
 ```
-
-
-## Differences to alternatives
-
-- The API features a function to call to `await` its result [some use a context manager]
-
-- The API is imperative [some use a functional approach/higher-order function]
-
-- No polling is used [some use polling internally]
-
-- A _minimum interval between resolutions_ is used to throttle [rather that a _max resolutions per time interval_, which can cause an irregular pattern of resolutions]
-
-- The tests cover edge cases, such as asserting on throttling after tasks being throttled have been cancelled [some alternatives do not]

@@ -7,21 +7,20 @@ def long_description():
 
 
 setuptools.setup(
-    name='aiothrottler',
-    version='0.0.16',
+    name='aio-throttle-to-next-second',
+    version='0.0.0',
     author='Michal Charemza',
     author_email='michal@charemza.name',
-    description='Throttler for asyncio Python',
+    maintainer='Department for International Trade',
+    maintainer_email='webops@digital.trade.gov.uk',
+    description='Throttler for asyncio Python that throttles to the next whole second',
     long_description=long_description(),
     long_description_content_type='text/markdown',
-    url='https://github.com/michalc/aiothrottler',
+    url='https://github.com/uktrade/aio-throttle-to-next-second',
     py_modules=[
-        'aiothrottler',
+        'aio_throttle_to_next_second',
     ],
     python_requires='~=3.5',
-    tests_require=[
-        'aiofastforward==0.0.24',
-    ],
     test_suite='test',
     classifiers=[
         'Programming Language :: Python :: 3',

@@ -5,18 +5,27 @@ from asyncio import (
 from collections import (
     deque,
 )
+from math import (
+    floor,
+)
+from time import (
+    time,
+)
 
 
-def Throttler(min_interval):
+def Throttler():
     loop = get_event_loop()
     queued = deque()
-    last_resolved = loop.time() - min_interval
+    last_resolved = floor(time() - 1.0)
     resolve_callback = None
 
     def schedule_resolve():
         nonlocal resolve_callback
-        delay = max(0, min_interval - (loop.time() - last_resolved))
-        resolve_callback = loop.call_later(delay, resolve)
+
+        now = time()
+        time_at_next_second = floor(last_resolved + 1.0)
+        time_to_next_second = max(0, time_at_next_second - now)
+        resolve_callback = loop.call_later(time_to_next_second, resolve)
 
     def resolve():
         nonlocal resolve_callback
@@ -29,7 +38,7 @@ def Throttler(min_interval):
 
         if queued:
             queued.popleft().set_result(None)
-            last_resolved = loop.time()
+            last_resolved = time()
 
         if queued:
             schedule_resolve()
